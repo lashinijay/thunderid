@@ -28,6 +28,7 @@ import (
 	"github.com/thunder-id/thunderid/internal/system/resourcedependency"
 	"github.com/thunder-id/thunderid/internal/system/security"
 	"github.com/thunder-id/thunderid/internal/system/sysauthz"
+	"github.com/thunder-id/thunderid/internal/system/transaction"
 	"github.com/thunder-id/thunderid/pkg/thunderidengine/providers"
 	"github.com/thunder-id/thunderid/tests/mocks/entitymock"
 	"github.com/thunder-id/thunderid/tests/mocks/entitytypemock"
@@ -153,6 +154,7 @@ func (suite *AgentServiceTestSuite) setupService() (
 		dependencyRegistry:   noopDepRegistry{},
 		roleService:          mockRole,
 		governance:           governance,
+		transactioner:        transaction.NewNoOpTransactioner(),
 	}
 	return svc, mockEntity, mockInbound, mockOU, mockRole
 }
@@ -308,7 +310,7 @@ func (suite *AgentServiceTestSuite) TestReadSystemAttributes_AllFields() {
 }
 
 func (suite *AgentServiceTestSuite) TestBuildSystemAttributesJSON_AllFields() {
-	raw, err := buildSystemAttributesJSON("d", "o", "c")
+	raw, err := buildSystemAttributesJSON("d", "o", "c", "")
 	suite.Require().NoError(err)
 	suite.Require().NotNil(raw)
 	desc, owner, clientID := readSystemAttributes(raw)
@@ -318,7 +320,7 @@ func (suite *AgentServiceTestSuite) TestBuildSystemAttributesJSON_AllFields() {
 }
 
 func (suite *AgentServiceTestSuite) TestBuildSystemAttributesJSON_EmptyFields() {
-	raw, err := buildSystemAttributesJSON("", "", "")
+	raw, err := buildSystemAttributesJSON("", "", "", "")
 	suite.Require().NoError(err)
 	assert.Nil(suite.T(), raw)
 }

@@ -90,6 +90,13 @@ var eventTypeToCategory = map[providers.EventType]EventCategory{
 	EventTypeFlowUserInputRequired:      CategoryFlows,
 	EventTypeFlowCompleted:              CategoryFlows,
 	EventTypeFlowFailed:                 CategoryFlows,
+
+	// Administration events
+	EventTypeAgentLifespanSet:          CategoryAdministration,
+	EventTypeAgentLifespanExtended:     CategoryAdministration,
+	EventTypeAgentLifespanReduced:      CategoryAdministration,
+	EventTypeAgentReactivated:          CategoryAdministration,
+	EventTypeAgentLifespanUpdateFailed: CategoryAdministration,
 }
 
 // GetCategory returns the category for a given event type.
